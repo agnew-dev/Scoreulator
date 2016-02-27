@@ -1,0 +1,28 @@
+<!-- Side Bar Element -->
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-drawer-panel/paper-drawer-panel.html">
+
+
+
+<dom-module id="score-list">
+  <template>
+    <style>
+      :host{
+        color: white;
+      }
+    </style>
+    <link href="css/score-list.css" rel="stylesheet">
+    <iron-ajax auto
+        url="https://statsapi.web.nhl.com/api/v1/schedule?&expand=schedule.teams,schedule.linescore"
+        handle-as="json"
+        last-response="{{ajaxResponse}}"></iron-ajax>
+    <template is="dom-repeat" items="[[ajaxResponse.dates]]">
+      <template is="dom-repeat" items="[[item.games]]"
+        <li>[[item.teams.home.team.teamName]]</li>
+        <li>[[item.teams.away.team.teamName]]</li>
+      </template>
+    </template>
+  </template>
+</dom-module>
+
+<script src="js/score-list.js"></script>

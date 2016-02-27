@@ -1,5 +1,5 @@
-angular.module('goalBuddy.services', [])
+angular.module('scoreULator.services', [])
 	.factory('GameData', function($http){
 
-	})	
+	})
 	.value('version', '0.1');
