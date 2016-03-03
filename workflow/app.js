@@ -6,6 +6,5 @@ angular.module('scoreULator', ['ngRoute', 'angularMoment', 'scoreULator.filters'
 		$routeProvider.when('/scores', {templateUrl: 'partials/scores.html', controller: 'ScoresController'});
 		$routeProvider.when('/standings', {templateUrl: 'partials/standings.html', controller: 'ScoresController'});
 		$routeProvider.when('/settings', {templateUrl: 'partials/settings.html', controller: 'ScoresController'});
-		$routeProvider.otherwise({redirectTo: '/index.html'});
-
+		$routeProvider.otherwise({redirectTo: '/index'});
 	}]);

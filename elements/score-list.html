@@ -10,19 +10,86 @@
       :host{
         color: white;
       }
+      table{
+        background-color:#333;
+        width: 100%;
+      }
+      tr{
+        width: 100%;
+        padding-bottom: 25px;
+      }
+      .score{
+        text-align: center;
+        padding-right: 30px;
+      }
+      .awayRow{
+        border-bottom: 1px solid white;
+      }
+      .homeName{
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .awayName{
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+      .name{
+        padding-left: 20px;
+        padding-right: 10px;
+      }
+      .timeCol{
+        padding-left: 20px;
+        border-bottom: 1px solid white;
+
+      }
+      .success{
+        font-weight: bold;
+      }
+      .previewGameScore{
+        color: rgba(255, 0, 0, 0);
+        text-shadow: none;
+      }
+      .show{
+
+      }
+      .hide{
+        display: none;
+      }
     </style>
     <link href="css/score-list.css" rel="stylesheet">
+    <link href="css/team-styles.css" rel="stylesheet">
     <iron-ajax auto
         url="https://statsapi.web.nhl.com/api/v1/schedule?&expand=schedule.teams,schedule.linescore"
         handle-as="json"
         last-response="{{ajaxResponse}}"></iron-ajax>
     <template is="dom-repeat" items="[[ajaxResponse.dates]]">
-      <template is="dom-repeat" items="[[item.games]]"
-        <li>[[item.teams.home.team.teamName]]</li>
-        <li>[[item.teams.away.team.teamName]]</li>
+      <table>
+      <template is="dom-repeat" items="[[item.games]]">
+          <tr><td class$="name homeName homeRow {{getTeamStyle(item.teams.home.team.abbreviation)}}">[[item.teams.home.team.teamName]]</td>
+            <!-- Display if Live or Over -->
+            <td class$="score homeRow success {{isGameScoreLive(item.status.abstractGameState)}} {{getTeamStyle(item.teams.home.team.abbreviation)}}">[[item.teams.home.score]]</td>
+            <!-- Display if Preview -->
+
+            <!-- Handle Game Time Display -->
+
+            <td rowspan="2" class="timeCol">{{getTime(item.gameDate, item.status.abstractGameState, item.linescore.currentPeriodTimeRemaining, item.linescore.currentPeriodOrdinal)}}</td>
+<!--
+            <td rowspan$="{{isSpanPreview(item.status.abstractGameState)}}" class$="timeCol {{isGamePreview(item.status.abstractGameState)}}">{{getTime(item.gameDate)}}</td>
+            <td rowspan$="{{isSpanLive(item.status.abstractGameState)}}" class$="timeCol {{isGameLive(item.status.abstractGameState)}}">{{getTime(item.gameDate)}}</td>
+            <td rowspan$="{{isSpanFinal(item.status.abstractGameState)}}" class$="timeCol {{isGameFinal(item.status.abstractGameState)}}">{{getTime(item.gameDate)}}</td> -->
+          </tr>
+
+
+
+          <tr><td class$="name awayName awayRow {{getTeamStyle(item.teams.away.team.abbreviation)}}">[[item.teams.away.team.teamName]]</td>
+            <!-- Display if Preview -->
+
+            <td class$="score awayRow {{isGameScoreLive(item.status.abstractGameState)}} {{getTeamStyle(item.teams.away.team.abbreviation)}}">[[item.teams.away.score]]</td></tr>
       </template>
+    </table>
     </template>
   </template>
 </dom-module>
-
+<script src="../bower_components/moment/moment.js"></script>
+<script src="../workflow/moment.timezone.min.js"></script>
 <script src="js/score-list.js"></script>
